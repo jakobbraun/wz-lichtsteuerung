@@ -8,7 +8,11 @@
   },
   "dependencies": {
     "core-js": "^3.4.4",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "bootstrap-vue": "*",
+    "bootstrap": "*",
+    "axios": "*",
+    "@radial-color-picker/vue-color-picker": "*"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.1.0",

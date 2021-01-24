@@ -1,28 +1,60 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="scene" v-for="scene in scenes" @click="loadScene(scene)">{{scene}}</div>
+    <div class="my-4">
+        <saveScene :scenes="scenes" @new="newScene"/>
+        <rmScene :scenes="scenes"  @deleted="rmScene"/>
+        <editScene />
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import axios from "axios"
+import saveScene from "./saveScene.vue"
+import rmScene from "./rmScene.vue"
+import editScene from "./editScene.vue"
 
 export default {
   name: 'app',
+  data(){
+    return {
+        scenes: [],
+    };
+  },
   components: {
-    HelloWorld
-  }
+    saveScene,
+    rmScene,
+    editScene
+  },
+  created(){
+    axios.get("http://wohnzimmerlampe/scenes").then(resp => this.scenes = resp.data.split("\n").filter(e => e != ""));
+  },
+  methods:{
+    loadScene(name){
+        axios.get("http://wohnzimmerlampe/loadScene",{
+            params: {
+                name: name
+            }
+        });
+    },
+    newScene(name){
+        this.scenes.push(name);
+    },
+    rmScene(name){
+        this.scenes.splice(this.scenes.indexOf(name),1);
+    }
+  },
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style scoped>
+.scene{
+    padding: 7px;
+    border-radius: 4px;
+    background: #ddd;
+    display:inline-block;
+    margin: 6px;
+    cursor: pointer;
 }
 </style>

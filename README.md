@@ -1,5 +1,7 @@
 # lightcontrol
 
+A simple app for controlling my living-rooms lamp.
+
 ## Project setup
 ```
 npm install
